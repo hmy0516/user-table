@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {PureComponent } from 'react';
+import { Input ,Button } from 'antd';
+import Tables from './Table'
+import Modals from './Modals'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const { Search } = Input;
+class App extends PureComponent  {
+  constructor(props){
+    super(props);
+    this.state={
+      showModal: false,
+      itemInfo: null
+    }
+  }
+  
+  addSource=()=> {
+    this.setState({
+        showModal: true
+    })
+  }
+  closeModal(status) {
+    this.setState({
+        showModal: status
+    })
+  }
+  render() {
+      return (
+        
+          <div className="App">
+              <Search
+                placeholder="input search name"
+                onSearch={value => console.log(value)}
+                style={{ width: 200 }}
+              />
+              <Button type="primary" onClick={this.addSource}>添加</Button>
+              <Tables></Tables>
+              {this.state.showModal ? (<Modals numbs={this.state.itemInfo} visible={this.state.showModal} fromSon={status => {
+                    this.closeModal(status)
+                }}/>) : null}
+          </div>
+        
+      );
+  }
 }
 
 export default App;
